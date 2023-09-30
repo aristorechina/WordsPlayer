@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}<title>词书选择</title>{% endblock %}
+{% block body %}<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="nav nav-pills nav-justified">
+                <li class="active">
+                <a href="/">Home</a></li>
+                <li onclick="study()"><a href="#">Study</a></li>
+                <li><a href="http://aristore.top/">About</a></li>
+            </ul><br><br><br>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-2 column">
+        </div>
+
+        <div class="col-md-4 column">
+            <form role="form" id="dicname" action="/" method="post">
+                <div class="form-group">
+                    <h1>现在已有如下词库</h1>
+                    <label for="name">选择词库</label>
+                    <select class="selectpicker" data-size="5" name="dic_name" onChange="autosubmit();">
+                        {% for dic in dic_list %}
+                            {% if dic_sele %}
+                                {% if dic_sele == dic %}
+                                    <option value="{{ dic }}" selected>{{ dic }} </option>
+                                {% else %}
+                                    <option value="{{ dic }}">{{ dic }}</option>
+                                {% endif %}
+                            {% else %}
+                                <option value="{{ dic }}">{{ dic }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-2 column">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-2 column">
+        </div>
+
+        <div class="col-md-8 column">
+            {% if dic_con %}
+                <textarea class="form-control" rows="10" readonly="readonly">{{ dic_con }}</textarea>
+            {% endif %}
+            <form role="form" action="" name="select" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="dic_sele" value="{{ dic_sele }}" style="display:none">
+                </div>
+
+                <div class="col-md-5 column"></div>
+
+                <div class="col-md-1 column">
+                    <button type="button" class="btn btn-primary btn-lg " onclick="study()">开始学习</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-2 column">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+function autosubmit(){
+    document.getElementById("dicname").submit();
+}
+function study() {
+    document.select.action="/study";
+    document.select.submit();
+}
+</script>
+</body>
+{% endblock %}

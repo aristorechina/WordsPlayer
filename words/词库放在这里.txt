@@ -1,0 +1,2 @@
+https://github.com/lyc8503/baicizhan-word-meaning-API/tree/master/data/words
+把这个目录下的所有json文件放在该文件夹下

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}<title>学习</title>{% endblock %}
+{% block body %}
+<body onpageshow="question()" onkeydown="handles_keyboard(event)">
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<ul class="nav nav-pills nav-justified">
+				<li><a href="/">Home</a></li>
+                <li class="active">
+				<a href="/study">Study</a></li>
+                <li><a href="http://www.aristore.top/">About</a></li>
+			</ul><br><br><br>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column" align="center">
+            <h1>你正在学习：{{ dic_name }}</h1><br>
+            <h1 id="en_word" align="center" style="color:brown;font-style:oblique;" ></h1>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-2 column">
+		</div>
+		<div class="col-md-8 column">
+            <textarea style="font-size:30px;color: indigo" id="cn_word" class="form-control" rows="8" readonly="readonly"></textarea>
+		</div>
+		<div class="col-md-2 column">
+		</div>
+	</div>
+</div>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-2 column"></div>
+        <div class="col-md-2 column">
+            <button type="button" class="btn btn-primary btn-lg btn-block " onclick="gohome()" >EXIT</button>
+        </div>
+        <div class="col-md-2 column">
+            <button type="button" class="btn btn-primary btn-lg btn-block " onclick="previous()" >PREVIOUS</button>
+        </div>
+        <div class="col-md-2 column">
+            <button type="button" class="btn btn-primary btn-lg btn-block " onclick="next()" >NEXT</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var cn_word;
+    var num = 0;
+    var en_list = {{ en_list|tojson }};
+    var cn_list = {{ cn_list|tojson }};
+    var us_audio_links = {{ us_audio_links|tojson }};
+    var n = en_list.length;
+    var i = 0;
+
+    function playAudio() {
+        var audio = new Audio(us_audio_links[i]);
+        audio.play();
+    }
+
+    function question() {
+        if (i < n) {
+            var en_word = en_list[i];
+            cn_word = cn_list[i];
+            num = num + 1;
+            document.getElementById("en_word").innerHTML = en_word;
+            document.getElementById("cn_word").innerHTML = cn_word;
+            
+            // 播放音频
+            playAudio();
+
+            i++;
+        } else {
+            alert("已经学习完所有单词");
+        }
+    }
+
+    function handles_keyboard(event){
+        if (event.keyCode == 39){
+            next();
+        }
+        if (event.keyCode == 37){
+            previous();
+        }
+    }
+
+    function next() {
+        question();
+    }
+
+    function previous() {
+        if (i > 1) {
+            i = i - 2;
+            question();
+        } else {
+            i = 1;
+            alert("已经是第一个单词了");
+        }
+    }
+
+    function gohome() {
+        window.location.href="/";
+    }
+</script>
+</body>
+{% endblock %}
